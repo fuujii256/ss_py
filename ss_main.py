@@ -50,10 +50,10 @@ bg_y = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 
 ss_x = 480
 ss_y = 360
-
+sht = 0
 
 def move_starship(scrn, key): # 自機の移動
-    global ss_x, ss_y
+    global ss_x, ss_y,sht
     if key[pygame.K_UP] == 1:
         ss_y = ss_y - 5
         if ss_y < 120:
@@ -66,10 +66,20 @@ def move_starship(scrn, key): # 自機の移動
         ss_x = ss_x - 5
         if ss_x < 60:
             ss_x = 60
-    if key[pygame.K_RIGHT] == 1:
+    if key[pygame.K_RIGHT] == 1: 
         ss_x = ss_x + 5
         if ss_x > 900:
             ss_x = 900
+            
+    if key[pygame.K_SPACE] ==1: 
+        if sht==0:
+            sht=10
+            hoge = pygame.mixer.Sound("sound/shot.WAV")
+            hoge.play()
+    else:
+        sht=0
+
+    if sht >0: sht=sht -1
                                 #自機の表示
     scrn.blit(img_ss_ship1[1], [ss_x-37, ss_y-48])
     if tmr %8 == 0:
