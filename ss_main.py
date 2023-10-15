@@ -47,13 +47,40 @@ img_ss_ship2 = [pygame.transform.smoothscale(temp2,(64,64)), pygame.transform.sm
 bg_x = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]               
 bg_y = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         
-
 ss_x = 480
 ss_y = 360
-sht = 0
+sht= 0
+#ショットボタンの状態
 
-def move_starship(scrn, key): # 自機の移動
-    global ss_x, ss_y,sht
+sht_no = 0
+#ショットの番号
+
+sht_max = 8
+#ショットの最大数　LV0=8 LV1=8 LV2=12 LV3=20　リニアに変わる
+
+sht_lv = 0  
+#ショットのレベル値
+
+msl_f = [False]*sht_max
+msl_x = [0]*sht_max
+msl_y = [0]*sht_max
+
+
+def set_shot():   
+    global sht_no,sht_lv,sht
+    sht_f[sht_no] = true
+    if sht_lv ==0:
+         #shot immage = 0のイメージ
+        sht_lv =0      
+        
+def move_starship(scrn, key):
+# 自機の移動
+    global ss_x, ss_y,sht,sht_no
+    
+    if key[pygame.K_1] == 1:
+        sht_lev = sht_lev +1
+        if sht_lev >3: sht_lev= 0
+    
     if key[pygame.K_UP] == 1:
         ss_y = ss_y - 5
         if ss_y < 120:
@@ -76,6 +103,9 @@ def move_starship(scrn, key): # 自機の移動
             sht=10
             hoge = pygame.mixer.Sound("sound/shot.WAV")
             hoge.play()
+            if sht_no <5: 
+                sht_no= sht_no +1
+                #set_shot()                        #自分の機体のショットをセット
     else:
         sht=0
 
