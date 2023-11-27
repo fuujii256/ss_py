@@ -8,8 +8,13 @@ img_galaxy1 = pygame.image.load("image_gl/star1.png")
 img_galaxy2 = pygame.image.load("image_gl/star2.png")
 img_galaxy3 = pygame.image.load("image_gl/star3.png")
 img_galaxy4 = pygame.image.load("image_gl/star4.png")
+
+img_galaxy1 = pygame.transform.smoothscale(img_galaxy1,(16,16))
+img_galaxy2 = pygame.transform.smoothscale(img_galaxy2,(16,16))
+img_galaxy3 = pygame.transform.smoothscale(img_galaxy3,(16,16))
+img_galaxy4 = pygame.transform.smoothscale(img_galaxy4,(16,16))
+
 img_bg = pygame.image.load("image_gl/bg1.png")
-mg_bg = pygame.image.load("image_gl/bg1.png")
 
 im1 = cv2.imread("char/char32.png",-1)
 im2 = cv2.imread("char/char33.png",-1)
@@ -42,34 +47,34 @@ temp2 = pygame.image.load("image_gl/ss_ship2.png")
 temp3 = pygame.image.load("image_gl/ss_ship3.png")
 temp4 = pygame.image.load("image_gl/ss_ship4.png")
 
-img_ss_ship1 = [pygame.transform.smoothscale(temp1,(64,64)), pygame.transform.smoothscale(temp3,(64,64))] 
-img_ss_ship2 = [pygame.transform.smoothscale(temp2,(64,64)), pygame.transform.smoothscale(temp4,(64,64))] 
+img_ss_ship1 = [pygame.transform.smoothscale(temp1,(32,32)), pygame.transform.smoothscale(temp3,(32,32))] 
+img_ss_ship2 = [pygame.transform.smoothscale(temp2,(32,32)), pygame.transform.smoothscale(temp4,(32,32))] 
 bg_x = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]               
 bg_y = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         
 
-ss_x = 480
-ss_y = 360
+ss_x = 256
+ss_y = 224
 
 
 def move_starship(scrn, key): # 自機の移動
     global ss_x, ss_y
     if key[pygame.K_UP] == 1:
         ss_y = ss_y - 5
-        if ss_y < 120:
-            ss_y = 120
+        if ss_y < 108:
+            ss_y = 108
     if key[pygame.K_DOWN] == 1:
         ss_y = ss_y + 5
-        if ss_y > 700:
-            ss_y = 700
+        if ss_y > 452:
+            ss_y = 452
     if key[pygame.K_LEFT] == 1:
         ss_x = ss_x - 5
-        if ss_x < 60:
-            ss_x = 60
+        if ss_x < 64:
+            ss_x = 64
     if key[pygame.K_RIGHT] == 1:
         ss_x = ss_x + 5
-        if ss_x > 900:
-            ss_x = 900
+        if ss_x > 480:
+            ss_x = 480
                                 #自機の表示
     scrn.blit(img_ss_ship1[1], [ss_x-37, ss_y-48])
     if tmr %8 == 0:
@@ -104,9 +109,13 @@ def main(): # メインループ
     for w in range(40):
         stmr[w]=random.randint(0,8)
 
+
+#画面の初期化
+    scn_width = 512   #表示画面の大きさ、ファミコン（256×224）の２倍で設定。
+    scn_height = 448 
     pygame.init()
-    pygame.display.set_caption("Galaxy Lancer")
-    screen = pygame.display.set_mode((960, 720))
+    pygame.display.set_caption("StarSolder EX.")
+    screen = pygame.display.set_mode((scn_width, scn_height))
     #フォントの用意
     font1 = pygame.font.SysFont('meiryo', 40)   
     clock = pygame.time.Clock()
@@ -129,9 +138,9 @@ def main(): # メインループ
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F1:
-                    screen = pygame.display.set_mode((960, 720), pygame.FULLSCREEN)
+                    screen = pygame.display.set_mode((scn_width, scn_height), pygame.FULLSCREEN)
                 if event.key == pygame.K_F2 or event.key == pygame.K_ESCAPE:
-                    screen = pygame.display.set_mode((960, 720))
+                    screen = pygame.display.set_mode((scn_width, scn_height))
 
         # 星のスクロール
         for num in range(40):
@@ -152,7 +161,7 @@ def main(): # メインループ
         # BGのスクロール
         if bg_on ==1:
             bg1_x = 80-ss_x
-            bg1_y = bg1_y + tmr*2/720
+            bg1_y = bg1_y + tmr*1/720
             screen.blit(img_bg, [bg1_x, bg1_y])
         
         key = pygame.key.get_pressed()
